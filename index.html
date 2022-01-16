@@ -1,27 +1,190 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicTacToe</title>
     <script src="webxdc.js"></script>
-</head>
-<body>
-<input id="input" type="text"/>
-<a href="" onclick="sendMsg(); return false;">Send</a>
-<p id="output"></p>
-<script>
+  </head>
+  <body>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #board-screen {
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(225, 177, 44, 1);
+      }
 
-    function sendMsg() {
-        msg = document.getElementById("input").value;
-        window.webxdc.sendUpdate({"name": window.webxdc.selfName(), "msg": msg}, 'someone typed "'+msg+'"');
-    }
+      .screen {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        width: 100vw;
+        height: 100vh;
+      }
 
-    function receiveUpdate(update) {
-        document.getElementById('output').innerHTML += "<strong>&lt;" + update.payload.name + "&gt;</strong> " + update.payload.msg + "<br>";
-    }
+      .nav-bar {
+        padding: 5px;
+        background-color: rgb(0, 0, 0);
+      }
 
-    window.webxdc.setUpdateListener(receiveUpdate);
-    window.webxdc.getAllUpdates().forEach(receiveUpdate);
+      .nav-bar button {
+        position: absolute;
+        display: inline-block;
+        border: 1px white solid;
+        background: white;
+        font-weight: bold;
+      }
 
-</script>
-</body>
+      .nav-bar span {
+        display: inline-block;
+        font-family: monospace;
+        font-size: 20px;
+        color: white;
+        width: 100%;
+        text-align: center;
+      }
+
+      .content {
+        overflow-y: scroll;
+        width: 97vw;
+        max-width: 550px;
+        margin: auto;
+      }
+
+      .board {
+        width: 80vw;
+        height: 80vw;
+        max-width: 500px;
+        max-height: 500px;
+        background-color: rgba(220, 221, 225, 1);
+        margin: auto;
+        display: flex;
+        padding: 6px;
+        flex-direction: column;
+      }
+
+      .board > div {
+        flex-grow: 1;
+        display: flex;
+        margin: 6px 0px;
+      }
+
+      .board > div > div {
+        flex-grow: 1;
+        margin: 0px 6px;
+        background-color: rgba(245, 246, 250, 1);
+        background-size: contain;
+      }
+
+      .board.myturn > div > div:not(.cross, .circle):hover {
+          background: #bbb;
+      }
+
+      .board > div > div.cross {
+        background-color: rgba(232, 65, 24, 1);
+        background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%0A%20%20%20width%3D%2264mm%22%0A%20%20%20height%3D%2264mm%22%0A%20%20%20viewBox%3D%220%200%2064%2064%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg827%22%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22path912%22%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23000000%3Bstroke-width%3A0.830767%22%0A%20%20%20%20%20%20%20d%3D%22M%20120.94531%2023.958984%20A%2096.985704%2096.985704%200%200%200%2023.958984%20120.94531%20A%2096.985704%2096.985704%200%200%200%20120.94531%20217.92969%20A%2096.985704%2096.985704%200%200%200%20217.92969%20120.94531%20A%2096.985704%2096.985704%200%200%200%20120.94531%2023.958984%20z%20M%20120.94531%2052.695312%20A%2068.249197%2068.249197%200%200%201%20189.19336%20120.94531%20A%2068.249197%2068.249197%200%200%201%20120.94531%20189.19336%20A%2068.249197%2068.249197%200%200%201%2052.695312%20120.94531%20A%2068.249197%2068.249197%200%200%201%20120.94531%2052.695312%20z%20%22%0A%20%20%20%20%20%20%20transform%3D%22scale%280.26458333%29%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+      }
+
+      .board > div > div.circle {
+        background-color: rgb(83, 114, 194);
+        background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%0A%20%20%20width%3D%2264mm%22%0A%20%20%20height%3D%2264mm%22%0A%20%20%20viewBox%3D%220%200%2064%2064%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg827%22%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22rect1178%22%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23000000%3Bstroke-width%3A0.264583%22%0A%20%20%20%20%20%20%20d%3D%22M%206.7986846%2C12.511468%2026.28733%2C32.000114%206.7986846%2C51.488759%2012.511102%2C57.201177%2031.999748%2C37.712531%2051.488759%2C57.201543%2057.201177%2C51.489125%2037.712165%2C32.000114%2057.201177%2C12.511102%2051.488759%2C6.7986846%2031.999748%2C26.287696%2012.511102%2C6.7990505%20Z%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+      }
+
+      .board-container {
+        margin: 20px 0px;
+      }
+
+      .game-title {
+        font-family: sans-serif;
+        text-align: center;
+        font-size: large;
+        margin-bottom: 6px;
+      }
+
+      .turn-container {
+        font-family: sans-serif;
+        margin-top: 12px;
+        width: 100%;
+      }
+      .turn-container > div {
+        margin: auto;
+        text-align: center;
+        font-size: large;
+      }
+
+      .user {
+        border-radius: 3px;
+        color: white;
+        padding: 3px 5px;
+      }
+
+      .user.cross {
+        background-color: rgba(232, 65, 24, 1);
+      }
+
+      .user.circle {
+        background-color: rgba(25, 42, 86, 1);
+      }
+
+      .game-entry {
+        display: flex;
+        padding: 7px;
+      }
+
+      .game-entry,
+      .game-offer {
+        background-color: #fbc531;
+        box-shadow: 8px 8px 0px#000000d7;
+        margin: 15px;
+      }
+
+      .game-entry:hover,
+      .game-offer:hover {
+        background-color: #c9cc2c;
+      }
+
+      .game-entry .game-info{
+        flex-grow: 1;
+        padding-top: 4px;
+        font-size: 18px;
+      }
+
+      .game-entry .board {
+        max-width: 120px;
+        max-height: 120px;
+        width: 20vw;
+        height: 20vw;
+        padding: 2px;
+        box-shadow: 1px 1px 10px 4px#0000001e;
+      }
+      .game-entry .board > div {
+        margin: 2px 0px;
+      }
+      .game-entry .board > div > div {
+        margin: 0px 2px;
+      }
+
+      .game-offer {
+        font-family: sans-serif;
+        padding: 10px;
+      }
+
+      .home-screen h2 {
+        padding-left: 10px;
+      }
+
+      .home-screen .content {
+        flex-grow: 1;
+      }
+    </style>
+    <div id="board-screen"></div>
+
+    <script src="tic_tac_toe.js"></script>
+  </body>
 </html>
