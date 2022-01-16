@@ -83,7 +83,7 @@
       }
 
       .board.myturn > div > div:not(.cross, .circle):hover {
-          background: #bbb;
+        background: #bbb;
       }
 
       .board > div > div.cross {
@@ -122,6 +122,11 @@
         border-radius: 3px;
         color: white;
         padding: 3px 5px;
+        max-width: 14em;
+        text-overflow: ellipsis;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
       }
 
       .user.cross {
@@ -149,7 +154,7 @@
         background-color: #c9cc2c;
       }
 
-      .game-entry .game-info{
+      .game-entry .game-info {
         flex-grow: 1;
         padding-top: 4px;
         font-size: 18px;

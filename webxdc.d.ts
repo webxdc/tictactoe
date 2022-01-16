@@ -41,7 +41,7 @@ interface WEBxDC<T> {
    * Webxdc apps are usually shared in a chat and run independently on each peer. To get a shared state, the peers use sendUpdate() to send updates to each other.
    * @param description short, human-readable description what this update is about. this is shown eg. as a fallback text in an email program.
    */
-  sendUpdate(update: SendingStateUpdate, description: string): void;
+  sendUpdate(update: SendingStateUpdate<T>, description: string): void;
 }
 
 declare global {

@@ -387,11 +387,16 @@ function createGameOffer() {
     action: { type: "create", gameId: Date.now() },
     player: getCurrentPlayer(),
   };
-  window.webxdc.sendUpdate({ payload }, "create a new game offer");
+  window.webxdc.sendUpdate(
+    { payload, info: "TicTacToe: " + ME_PLAYER.name + " created a new game." },
+    "create a new game offer"
+  );
 }
 
 /** @type { undefined | {id: number, player2: Player} } gameId to start, if it was not started already */
 let pending_game_start = undefined;
+
+let pending_game_result_message = undefined;
 /**
  * @param {boolean} is_live wether state update is live and not reconstructing
  * @param {StateUpdate} state
@@ -573,6 +578,13 @@ function addStateToGames(is_live, { payload }) {
                 game.state == GAME_STATE.PLAYER2_WON
               ) {
                 if (player.email === ME_PLAYER.email) {
+                  pending_game_result_message =
+                    "TicTacToe: " +
+                    player.name +
+                    " won against " +
+                    (player.email === game.player1.email
+                      ? game.player1.name
+                      : game.player2.name);
                   // if wining move was mine?
                   playBeep(300, 0.4);
                 } else {
@@ -580,6 +592,14 @@ function addStateToGames(is_live, { payload }) {
                 }
               } else if (game.state == GAME_STATE.TIE) {
                 playBeep(195, 0.4);
+                if (player.email === ME_PLAYER.email) {
+                  pending_game_result_message =
+                    "TicTacToe: The match between " +
+                    game.player1.name +
+                    " and " +
+                    game.player2.name +
+                    " resulted in a tie.";
+                }
               }
             }, 210);
           }
@@ -620,17 +640,17 @@ reRender();
 
 // get all games from previous states
 window.webxdc.getAllUpdates().forEach(addStateToGames.bind(null, false));
-processPendingGameStart();
+processPending();
 
 // on state update update corresponding game and rerender if its the current one
 window.webxdc.setUpdateListener((update) => {
   if (addStateToGames(true, update)) {
     reRender();
   }
-  processPendingGameStart();
+  processPending();
 });
 
-function processPendingGameStart() {
+function processPending() {
   if (pending_game_start) {
     /** @type {stateChange} */
     const payload = {
@@ -642,6 +662,15 @@ function processPendingGameStart() {
       player: getCurrentPlayer(),
     };
     window.webxdc.sendUpdate({ payload }, "start the game");
+    pending_game_start = undefined;
+  }
+
+  if (pending_game_result_message) {
+    window.webxdc.sendUpdate(
+      { payload: {}, info: pending_game_result_message },
+      "start the game"
+    );
+    pending_game_result_message = undefined;
   }
 }
 
