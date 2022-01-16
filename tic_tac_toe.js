@@ -661,20 +661,53 @@ function processPending() {
       },
       player: getCurrentPlayer(),
     };
-    window.webxdc.sendUpdate({ payload }, "start the game");
+    window.webxdc.sendUpdate(
+      { payload, summary: getAppSummary() },
+      "start the game"
+    );
     pending_game_start = undefined;
   }
 
   if (pending_game_result_message) {
     window.webxdc.sendUpdate(
-      { payload: {}, info: pending_game_result_message },
-      "start the game"
+      {
+        payload: {},
+        info: pending_game_result_message,
+        summary: getAppSummary(),
+      },
+      pending_game_result_message
     );
     pending_game_result_message = undefined;
   }
 }
 
 reRender();
+
+function getAppSummary() {
+  const active_games = inner_state.games.filter(
+    ({ state }) =>
+      state == GAME_STATE.PLAYER1_TURN || state == GAME_STATE.PLAYER2_TURN
+  );
+  const completed_games = inner_state.games.filter(
+    ({ state }) =>
+      state !== GAME_STATE.PLAYER1_TURN && state !== GAME_STATE.PLAYER2_TURN
+  );
+  const ties = completed_games.filter(
+    ({ state }) => state === GAME_STATE.TIE
+  ).length;
+  const wins = completed_games.length - ties;
+  return (
+    "Stats:" +
+    "\nRunning Games: " +
+    active_games.length +
+    "\nCompleted Games: " +
+    completed_games.length +
+    "\nWins: " +
+    wins +
+    "\nTies: " +
+    ties
+  );
+}
 
 // sound?
 var context = new (window.AudioContext || window.webkitAudioContext)();
