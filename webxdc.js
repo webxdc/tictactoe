@@ -1,6 +1,8 @@
 // debug friend: document.writeln(JSON.stringify(value));
+//@ts-check
+/** @type {import('./webxdc').WEBxDC<any>} */
 window.webxdc = (() => {
-    var updateListener = () => {};
+    var updateListener = (_) => {};
     var updatesKey = "__xdcUpdatesKey__";
     window.addEventListener('storage', (event) => {
         if (event.key == null) {
@@ -29,6 +31,7 @@ window.webxdc = (() => {
         },
         sendUpdate: (update, description) => {
             // alert(description+"\n\n"+JSON.stringify(payload));
+            update = {payload: update.payload, summary: update.summary, info: update.info}
             console.log('[Webxdc] description="' + description + '", ' + JSON.stringify(update));
             updateListener(update);
             var updatesJSON = window.localStorage.getItem(updatesKey);
@@ -51,7 +54,7 @@ window.addXdcPeer = () => {
     window.open(url);
 
     // update next peer ID
-    params.set("next_peer", peerId + 1);
+    params.set("next_peer", String(peerId + 1));
     window.location.hash = "#" + params.toString();
 }
 

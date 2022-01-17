@@ -51,3 +51,12 @@ declare global {
 }
 
 export { SendingStateUpdate, RecievedStateUpdate, WEBxDC };
+
+/* Types for the Simulator */
+declare global {
+  interface Window {
+    addXdcPeer: () => void;
+    clearXdcStorage: () => void;
+    alterXdcApp: () => void;
+  }
+}
