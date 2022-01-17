@@ -470,6 +470,7 @@ function addStateToGames(is_live, { payload }) {
         player.email == ME_PLAYER.email ||
         action.player2.email == ME_PLAYER.email
       ) {
+        inner_state.wait_for_game_start_id = undefined
         // this my game, open it - if no other game is open currently
         if (is_live && !inner_state.currentGameId) {
           playBeep(180, 0.14);
