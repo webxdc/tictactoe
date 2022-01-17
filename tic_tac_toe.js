@@ -406,6 +406,10 @@ function addStateToGames(is_live, { payload }) {
   let { action, player } = payload;
   let shouldRefreshScreen = false;
   try {
+    if (!action) {
+      console.error("no action, ignoring state update");
+      return;
+    }
     if (action.type == "create") {
       inner_state.gameOffers.push({
         player1: player,
@@ -578,6 +582,7 @@ function addStateToGames(is_live, { payload }) {
                 game.state == GAME_STATE.PLAYER2_WON
               ) {
                 if (player.email === ME_PLAYER.email) {
+                  console.log("set pending_game_result_message", { action });
                   pending_game_result_message =
                     "TicTacToe: " +
                     player.name +
@@ -669,15 +674,20 @@ function processPending() {
   }
 
   if (pending_game_result_message) {
-    window.webxdc.sendUpdate(
-      {
-        payload: {},
-        info: pending_game_result_message,
-        summary: getAppSummary(),
-      },
-      pending_game_result_message
-    );
+    const msg = pending_game_result_message;
     pending_game_result_message = undefined;
+    setTimeout(
+      () =>
+        window.webxdc.sendUpdate(
+          {
+            payload: {},
+            info: msg,
+            summary: getAppSummary(),
+          },
+          msg
+        ),
+      0
+    );
   }
 }
 
