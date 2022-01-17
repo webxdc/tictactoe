@@ -470,7 +470,7 @@ function addStateToGames(is_live, { payload }) {
         player.email == ME_PLAYER.email ||
         action.player2.email == ME_PLAYER.email
       ) {
-        inner_state.wait_for_game_start_id = undefined
+        inner_state.wait_for_game_start_id = undefined;
         // this my game, open it - if no other game is open currently
         if (is_live && !inner_state.currentGameId) {
           playBeep(180, 0.14);
@@ -577,20 +577,36 @@ function addStateToGames(is_live, { payload }) {
               //other player turn sound
               playBeep(200);
             }
+            if (
+              game.state == GAME_STATE.PLAYER1_WON ||
+              game.state == GAME_STATE.PLAYER2_WON
+            ) {
+              if (player.email === ME_PLAYER.email) {
+                console.log("set pending_game_result_message", { action });
+                pending_game_result_message =
+                  "TicTacToe: " +
+                  player.name +
+                  " won against " +
+                  (player.email === game.player1.email
+                    ? game.player2.name
+                    : game.player1.name);
+              }
+            } else if (game.state == GAME_STATE.TIE) {
+              if (player.email === ME_PLAYER.email) {
+                pending_game_result_message =
+                  "TicTacToe: The match between " +
+                  game.player1.name +
+                  " and " +
+                  game.player2.name +
+                  " resulted in a tie.";
+              }
+            }
             setTimeout(() => {
               if (
                 game.state == GAME_STATE.PLAYER1_WON ||
                 game.state == GAME_STATE.PLAYER2_WON
               ) {
                 if (player.email === ME_PLAYER.email) {
-                  console.log("set pending_game_result_message", { action });
-                  pending_game_result_message =
-                    "TicTacToe: " +
-                    player.name +
-                    " won against " +
-                    (player.email === game.player1.email
-                      ? game.player1.name
-                      : game.player2.name);
                   // if wining move was mine?
                   playBeep(300, 0.4);
                 } else {
@@ -598,14 +614,6 @@ function addStateToGames(is_live, { payload }) {
                 }
               } else if (game.state == GAME_STATE.TIE) {
                 playBeep(195, 0.4);
-                if (player.email === ME_PLAYER.email) {
-                  pending_game_result_message =
-                    "TicTacToe: The match between " +
-                    game.player1.name +
-                    " and " +
-                    game.player2.name +
-                    " resulted in a tie.";
-                }
               }
             }, 210);
           }
@@ -657,6 +665,7 @@ window.webxdc.setUpdateListener((update) => {
 });
 
 function processPending() {
+  console.info("processPending");
   if (pending_game_start) {
     /** @type {stateChange} */
     const payload = {
@@ -675,6 +684,7 @@ function processPending() {
   }
 
   if (pending_game_result_message) {
+    console.info("processPending:pending_game_result_message");
     const msg = pending_game_result_message;
     pending_game_result_message = undefined;
     setTimeout(
