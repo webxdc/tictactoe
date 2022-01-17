@@ -387,10 +387,7 @@ function createGameOffer() {
     action: { type: "create", gameId: Date.now() },
     player: getCurrentPlayer(),
   };
-  window.webxdc.sendUpdate(
-    { payload, info: "TicTacToe: " + ME_PLAYER.name + " created a new game." },
-    "create a new game offer"
-  );
+  window.webxdc.sendUpdate({ payload }, "create a new game offer");
 }
 
 /** @type { undefined | {id: number, player2: Player} } gameId to start, if it was not started already */
