@@ -15,6 +15,8 @@ a tic tac toe webxdc app.
 
 - add resilience against message loss
 - code quality (it's a bit messy for my tastes)
+- player-tags are not aligned on long names
+- update player names when they change during a game
 
 ## Developing
 
