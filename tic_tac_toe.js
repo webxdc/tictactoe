@@ -316,7 +316,7 @@ function reRender() {
  * @returns {Player}
  */
 function getCurrentPlayer() {
-  return { name: window.webxdc.selfName(), email: window.webxdc.selfAddr() };
+  return { name: window.webxdc.selfName, email: window.webxdc.selfAddr };
 }
 
 const ME_PLAYER = getCurrentPlayer();
@@ -379,7 +379,7 @@ function getState() {
  * | { type: "move", gameId: number, field: number }
  * )} gameAction
  * @typedef {{action: gameAction, player: Player}} stateChange
- * @typedef {import('./webxdc').SendingStateUpdate<stateChange>} StateUpdate
+ * @typedef {import('./webxdc').SendingStatusUpdate<stateChange>} StateUpdate
  */
 function createGameOffer() {
   /** @type {stateChange} */
@@ -649,17 +649,24 @@ document.onkeydown = (ev) => {
 
 reRender();
 
-// get all games from previous states
-window.webxdc.getAllUpdates().forEach(addStateToGames.bind(null, false));
-processPending();
-
-// on state update update corresponding game and rerender if its the current one
-window.webxdc.setUpdateListener((update) => {
-  if (addStateToGames(true, update)) {
-    reRender();
-  }
+async function startup() {
+  // get all games from previous states
+  (await window.webxdc.getAllUpdates()).forEach(
+    addStateToGames.bind(null, false)
+  );
   processPending();
-});
+
+  // on state update update corresponding game and rerender if its the current one
+  window.webxdc.setUpdateListener((update) => {
+    if (addStateToGames(true, update)) {
+      reRender();
+    }
+    processPending();
+  });
+  reRender();
+}
+
+startup();
 
 function processPending() {
   console.info("processPending");
@@ -698,8 +705,6 @@ function processPending() {
     );
   }
 }
-
-reRender();
 
 function getAppSummary() {
   const active_games = inner_state.games.filter(
