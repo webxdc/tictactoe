@@ -316,7 +316,10 @@ function reRender() {
  * @returns {Player}
  */
 function getCurrentPlayer() {
-  return { name: window.webxdc.selfName, email: window.webxdc.selfAddr };
+  return {
+    name: window.webxdc.selfName || window.webxdc.selfAddr.split("@")[0],
+    email: window.webxdc.selfAddr,
+  };
 }
 
 const ME_PLAYER = getCurrentPlayer();
