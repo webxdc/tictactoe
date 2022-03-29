@@ -650,19 +650,15 @@ document.onkeydown = (ev) => {
 reRender();
 
 async function startup() {
-  // get all games from previous states
-  (await window.webxdc.getAllUpdates()).forEach(
-    addStateToGames.bind(null, false)
-  );
-  processPending();
-
-  // on state update update corresponding game and rerender if its the current one
   window.webxdc.setUpdateListener((update) => {
-    if (addStateToGames(true, update)) {
+    const is_newest = update.serial === update.max_serial;
+    if (addStateToGames(is_newest, update)) {
       reRender();
     }
-    processPending();
-  });
+    if (is_newest) {
+      processPending();
+    }
+  }, 0);
   reRender();
 }
 
