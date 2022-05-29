@@ -11,7 +11,7 @@ a tic tac toe webxdc app.
 - rudimentary "Matchmaking"
 - Sound (some tone's to test sound)
 
-![screenshot](./screenshot.png)
+<img width=300 src="./screenshot.png" alt="screenshot" />
 
 ### Things that could be improved:
 
