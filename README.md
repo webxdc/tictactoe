@@ -11,6 +11,8 @@ a tic tac toe webxdc app.
 - rudimentary "Matchmaking"
 - Sound (some tone's to test sound)
 
+![screenshot](./screenshot.png)
+
 ### Things that could be improved:
 
 - add resilience against message loss
