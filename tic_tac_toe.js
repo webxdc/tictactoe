@@ -279,7 +279,6 @@ function HomeScreen({ youHaveGameOffer }) {
   return h(
     "div",
     [
-      h("div", h("span", "TicTacToe"), "nav-bar"),
       h(
         "div",
         [
