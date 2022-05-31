@@ -59,7 +59,9 @@ function GameState(game) {
   switch (game.state) {
     case GAME_STATE.PLAYER1_TURN:
       if (player1IsYou) {
-        return "Your turn";
+        return [
+          h("span", "Your turn", "user circle"),
+        ];
       } else {
         return [
           "waiting for ",
@@ -69,7 +71,9 @@ function GameState(game) {
       }
     case GAME_STATE.PLAYER2_TURN:
       if (player2IsYou) {
-        return "Your turn";
+        return [
+          h("span", "Your turn", "user cross"),
+        ];
       } else {
         return [
           "waiting for ",
@@ -83,13 +87,13 @@ function GameState(game) {
       return [
         "game is over, ",
         h("span", game.player1.name, "user circle"),
-        "won",
+        " won",
       ];
     case GAME_STATE.PLAYER2_WON:
       return [
         "game is over, ",
         h("span", game.player2.name, "user cross"),
-        "won",
+        " won",
       ];
     default:
       return "unknown game state: " + game.state;
