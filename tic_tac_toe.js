@@ -216,7 +216,7 @@ function GameOffer({ player1, gameId }) {
     isYourOffer
       ? [
           h("span", "You", "user circle"),
-          " started a game, waiting for someone to join...",
+          " offered a game, waiting for someone to join...",
         ]
       : inner_state.wait_for_game_start_id == gameId
       ? [
@@ -226,7 +226,7 @@ function GameOffer({ player1, gameId }) {
         ]
       : [
           h("span", player1.name, "user circle"),
-          " started a  game, tap this box to join",
+          " offered a  game, tap to join",
         ],
     "game-offer"
   );
