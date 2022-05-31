@@ -9,7 +9,10 @@ type SendingStatusUpdate<T> = {
    * usually only one line of text is shown,
    * use this option sparingly to not spam the chat. */
   info?: string;
-  /** optional, short text, shown beside app icon;
+  /** optional, if the Webxdc creates a document, you can set this to the name of the document;
+   * do not set if the Webxdc does not create a document */
+  document?: string;
+  /** optional, short text, shown beside the icon;
    * it is recommended to use some aggregated value,
    * eg. "8 votes", "Highscore: 123" */
   summary?: string;
@@ -24,7 +27,10 @@ type ReceivedStatusUpdate<T> = {
   max_serial: number;
   /** optional, short, informational message. */
   info?: string;
-  /** optional, short text, shown beside app icon. If there are no updates, an empty JSON-array is returned. */
+  /** optional, if the Webxdc creates a document, this is the name of the document;
+   * not set if the Webxdc does not create a document */
+  document?: string;
+  /** optional, short text, shown beside the webxdc's icon. */
   summary?: string;
 };
 
@@ -39,14 +45,15 @@ interface Webxdc<T> {
    * set a listener for new status updates.
    * The "serial" specifies the last serial that you know about (defaults to 0).
    * Note that own status updates, that you send with {@link sendUpdate}, also trigger this method
+   * @returns promise that resolves when the listener has processed all the update messages known at the time when `setUpdateListener` was called.
    * */
-  setUpdateListener(cb: (statusUpdate: ReceivedStatusUpdate<T>) => void, serial: number): void;
+  setUpdateListener(cb: (statusUpdate: ReceivedStatusUpdate<T>) => void, serial?: number): Promise<void>;
   /**
    * WARNING! This function is deprecated, see setUpdateListener().
    */
   getAllUpdates(): Promise<ReceivedStatusUpdate<T>[]>;
   /**
-   * Webxdc apps are usually shared in a chat and run independently on each peer. To get a shared status, the peers use sendUpdate() to send updates to each other.
+   * Webxdc are usually shared in a chat and run independently on each peer. To get a shared status, the peers use sendUpdate() to send updates to each other.
    * @param update status update to send
    * @param description short, human-readable description what this update is about. this is shown eg. as a fallback text in an email program.
    */
