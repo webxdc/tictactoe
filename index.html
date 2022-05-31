@@ -19,7 +19,6 @@
       #board-screen {
         width: 100vw;
         height: 100vh;
-        background-color: rgba(225, 177, 44, 1);
       }
 
       .screen {
@@ -32,7 +31,17 @@
 
       .nav-bar {
         text-align: center;
-        margin-bottom: 1em;
+        padding-bottom: 1.5em;
+      }
+
+      .nav-bar .switch {
+        background-color: #eee;
+        margin: 1em;
+        padding: 1em 2em;
+        border-radius: 1em;
+      }
+      .nav-bar .switch:hover {
+        background-color: #ddd;
       }
 
       .content {
@@ -84,21 +93,17 @@
       }
 
       .game-title {
-        font-family: sans-serif;
         text-align: center;
-        font-size: large;
-        margin-bottom: 6px;
+        margin-bottom: 1em;
       }
 
       .turn-container {
-        font-family: sans-serif;
-        margin-top: 12px;
+        margin-top: 1em;
         width: 100%;
       }
       .turn-container > div {
         margin: auto;
         text-align: center;
-        font-size: large;
       }
 
       .user {
@@ -141,7 +146,6 @@
       .game-entry .game-info {
         flex-grow: 1;
         padding-top: 4px;
-        font-size: 18px;
       }
 
       .game-entry .board {
@@ -156,6 +160,10 @@
       }
       .game-entry .board > div > div {
         margin: 0px 2px;
+      }
+
+      .home-screen {
+        background-color: rgba(225, 177, 44, 1);
       }
 
       .home-screen h2 {

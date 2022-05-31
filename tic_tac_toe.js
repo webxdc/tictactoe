@@ -106,7 +106,7 @@ function GameState(game) {
 function GameScreen(game) {
   const navbar = h(
     "div",
-    h("button", "Switch game"),
+    h("span", "Switch game", "switch"),
     "nav-bar"
   );
   navbar.onclick = () => {
