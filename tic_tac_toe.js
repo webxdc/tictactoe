@@ -106,7 +106,7 @@ function GameState(game) {
 function GameScreen(game) {
   const navbar = h(
     "div",
-    [h("button", "<"), h("span", "TicTacToe")],
+    h("button", "Switch game"),
     "nav-bar"
   );
   navbar.onclick = () => {
@@ -135,7 +135,6 @@ function GameScreen(game) {
   return h(
     "div",
     [
-      navbar,
       h(
         "div",
         [
@@ -160,6 +159,7 @@ function GameScreen(game) {
         ],
         "content"
       ),
+      navbar,
     ],
     "screen"
   );
