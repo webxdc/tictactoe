@@ -82,16 +82,14 @@ function GameState(game) {
         ];
       }
     case GAME_STATE.TIE:
-      return "game is over, Tie";
+      return "Tie";
     case GAME_STATE.PLAYER1_WON:
       return [
-        "game is over, ",
         h("span", game.player1.name, "user circle"),
         " won",
       ];
     case GAME_STATE.PLAYER2_WON:
       return [
-        "game is over, ",
         h("span", game.player2.name, "user cross"),
         " won",
       ];
