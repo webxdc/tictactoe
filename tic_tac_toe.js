@@ -253,7 +253,7 @@ function GameOffer({ player1, gameId }) {
 }
 
 function CreateGameOfferButton() {
-  const btn = h("button", "Create Game");
+  const btn = h("div", "Create new game offer...", "game-entry");
 
   btn.onclick = () => {
     playBeep(180, 0.1);

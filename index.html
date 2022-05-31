@@ -13,6 +13,7 @@
       body {
         margin: 0;
         padding: 0;
+        font-family: sans-serif;
       }
       #board-screen {
         width: 100vw;
@@ -45,7 +46,7 @@
         height: 80vw;
         max-width: 500px;
         max-height: 500px;
-        background-color: rgba(220, 221, 225, 1);
+        background-color: #999;
         margin: auto;
         display: flex;
         padding: 6px;
@@ -61,12 +62,12 @@
       .board > div > div {
         flex-grow: 1;
         margin: 0px 6px;
-        background-color: rgba(245, 246, 250, 1);
+        background-color: #fff;
         background-size: contain;
       }
 
       .board.myturn > div > div:not(.cross, .circle):hover {
-        background: #bbb;
+        background: #ddd;
       }
 
       .board > div > div.cross { /* blue, #2e97ff */
@@ -122,19 +123,18 @@
 
       .game-entry {
         display: flex;
-        padding: 7px;
       }
 
       .game-entry,
       .game-offer {
-        background-color: #fbc531;
-        box-shadow: 8px 8px 0px#000000d7;
-        margin: 15px;
+        background-color: #fff;
+        margin: 1em;
+        padding: 1em 2em;
+        border-radius: 1em;
       }
 
-      .game-entry:hover,
-      .game-offer:hover {
-        background-color: #c9cc2c;
+      .game-entry:hover {
+        background-color: #eee;
       }
 
       .game-entry .game-info {
@@ -149,18 +149,12 @@
         width: 20vw;
         height: 20vw;
         padding: 2px;
-        box-shadow: 1px 1px 10px 4px#0000001e;
       }
       .game-entry .board > div {
         margin: 2px 0px;
       }
       .game-entry .board > div > div {
         margin: 0px 2px;
-      }
-
-      .game-offer {
-        font-family: sans-serif;
-        padding: 10px;
       }
 
       .home-screen h2 {
