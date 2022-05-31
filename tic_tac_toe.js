@@ -282,10 +282,9 @@ function HomeScreen({ youHaveGameOffer }) {
       h(
         "div",
         [
-          h("h2", "Start a game"),
+          h("h2", "Active Games"),
           youHaveGameOffer || CreateGameOfferButton(),
           ...inner_state.gameOffers.map(GameOffer).reverse(),
-          h("h2", "Active Games"),
           ...active_games.map(HomeScreenGameEntry).reverse(),
           h("h2", "Completed Games"),
           ...completed_games.map(HomeScreenGameEntry).reverse(),
