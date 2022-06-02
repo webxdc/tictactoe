@@ -13,41 +13,36 @@
       body {
         margin: 0;
         padding: 0;
+        font-family: sans-serif;
+        font-size: 1.1em;
+        background: linear-gradient(#fff 0%, #FFFFED 100%)
       }
       #board-screen {
         width: 100vw;
         height: 100vh;
-        background-color: rgba(225, 177, 44, 1);
       }
 
       .screen {
         display: flex;
         flex-direction: column;
-        width: 100%;
         width: 100vw;
         height: 100vh;
       }
 
       .nav-bar {
-        padding: 5px;
-        background-color: rgb(0, 0, 0);
-      }
-
-      .nav-bar button {
-        position: absolute;
-        display: inline-block;
-        border: 1px white solid;
-        background: white;
-        font-weight: bold;
-      }
-
-      .nav-bar span {
-        display: inline-block;
-        font-family: monospace;
-        font-size: 20px;
-        color: white;
-        width: 100%;
         text-align: center;
+        padding-bottom: 1.5em;
+      }
+
+      .nav-bar .switch {
+        background-color: #eee;
+        margin: 1em;
+        padding: 1em 2em;
+        border-radius: 1em;
+        z-index: 1000;
+      }
+      .nav-bar .switch:hover {
+        background-color: #ddd;
       }
 
       .content {
@@ -62,11 +57,17 @@
         height: 80vw;
         max-width: 500px;
         max-height: 500px;
-        background-color: rgba(220, 221, 225, 1);
+        background-color: #999;
         margin: auto;
         display: flex;
         padding: 6px;
         flex-direction: column;
+        box-shadow: 0 0 .2em #999;
+      }
+
+      .board-container .board {
+        box-shadow: 0 0 .5em #888;
+        margin: 1em auto;
       }
 
       .board > div {
@@ -78,22 +79,22 @@
       .board > div > div {
         flex-grow: 1;
         margin: 0px 6px;
-        background-color: rgba(245, 246, 250, 1);
+        background-color: #fff;
         background-size: contain;
       }
 
       .board.myturn > div > div:not(.cross, .circle):hover {
-        background: #bbb;
+        background: #ddd;
       }
 
-      .board > div > div.cross {
-        background-color: rgba(232, 65, 24, 1);
-        background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%0A%20%20%20width%3D%2264mm%22%0A%20%20%20height%3D%2264mm%22%0A%20%20%20viewBox%3D%220%200%2064%2064%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg827%22%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22path912%22%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23000000%3Bstroke-width%3A0.830767%22%0A%20%20%20%20%20%20%20d%3D%22M%20120.94531%2023.958984%20A%2096.985704%2096.985704%200%200%200%2023.958984%20120.94531%20A%2096.985704%2096.985704%200%200%200%20120.94531%20217.92969%20A%2096.985704%2096.985704%200%200%200%20217.92969%20120.94531%20A%2096.985704%2096.985704%200%200%200%20120.94531%2023.958984%20z%20M%20120.94531%2052.695312%20A%2068.249197%2068.249197%200%200%201%20189.19336%20120.94531%20A%2068.249197%2068.249197%200%200%201%20120.94531%20189.19336%20A%2068.249197%2068.249197%200%200%201%2052.695312%20120.94531%20A%2068.249197%2068.249197%200%200%201%20120.94531%2052.695312%20z%20%22%0A%20%20%20%20%20%20%20transform%3D%22scale%280.26458333%29%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+      .board > div > div.cross { /* #2e97ff in svg below */
+        background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%0A%20%20%20width%3D%2264mm%22%0A%20%20%20height%3D%2264mm%22%0A%20%20%20viewBox%3D%220%200%2064%2064%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg827%22%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22path912%22%0A%20%20%20%20%20%20%20style%3D%22fill%3A%232e97ff%3Bstroke-width%3A0.830767%22%0A%20%20%20%20%20%20%20d%3D%22M%20120.94531%2023.958984%20A%2096.985704%2096.985704%200%200%200%2023.958984%20120.94531%20A%2096.985704%2096.985704%200%200%200%20120.94531%20217.92969%20A%2096.985704%2096.985704%200%200%200%20217.92969%20120.94531%20A%2096.985704%2096.985704%200%200%200%20120.94531%2023.958984%20z%20M%20120.94531%2052.695312%20A%2068.249197%2068.249197%200%200%201%20189.19336%20120.94531%20A%2068.249197%2068.249197%200%200%201%20120.94531%20189.19336%20A%2068.249197%2068.249197%200%200%201%2052.695312%20120.94531%20A%2068.249197%2068.249197%200%200%201%20120.94531%2052.695312%20z%20%22%0A%20%20%20%20%20%20%20transform%3D%22scale%280.26458333%29%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+        background-size: cover;
       }
 
-      .board > div > div.circle {
-        background-color: rgb(83, 114, 194);
-        background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%0A%20%20%20width%3D%2264mm%22%0A%20%20%20height%3D%2264mm%22%0A%20%20%20viewBox%3D%220%200%2064%2064%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg827%22%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22rect1178%22%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23000000%3Bstroke-width%3A0.264583%22%0A%20%20%20%20%20%20%20d%3D%22M%206.7986846%2C12.511468%2026.28733%2C32.000114%206.7986846%2C51.488759%2012.511102%2C57.201177%2031.999748%2C37.712531%2051.488759%2C57.201543%2057.201177%2C51.489125%2037.712165%2C32.000114%2057.201177%2C12.511102%2051.488759%2C6.7986846%2031.999748%2C26.287696%2012.511102%2C6.7990505%20Z%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+      .board > div > div.circle { /* #e85d3c in svg below */
+        background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%0A%20%20%20width%3D%2264mm%22%0A%20%20%20height%3D%2264mm%22%0A%20%20%20viewBox%3D%220%200%2064%2064%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg827%22%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22rect1178%22%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23e85d3c%3Bstroke-width%3A0.264583%22%0A%20%20%20%20%20%20%20d%3D%22M%206.7986846%2C12.511468%2026.28733%2C32.000114%206.7986846%2C51.488759%2012.511102%2C57.201177%2031.999748%2C37.712531%2051.488759%2C57.201543%2057.201177%2C51.489125%2037.712165%2C32.000114%2057.201177%2C12.511102%2051.488759%2C6.7986846%2031.999748%2C26.287696%2012.511102%2C6.7990505%20Z%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+        background-size: cover;
       }
 
       .board-container {
@@ -101,87 +102,81 @@
       }
 
       .game-title {
-        font-family: sans-serif;
-        text-align: center;
-        font-size: large;
-        margin-bottom: 6px;
+        margin-bottom: 0.1em;
+        margin-left: 1em;
       }
 
       .turn-container {
-        font-family: sans-serif;
-        margin-top: 12px;
-        width: 100%;
+        margin-left: 1em;
       }
-      .turn-container > div {
-        margin: auto;
+
+      .board-container .game-title, .board-container .turn-container {
         text-align: center;
-        font-size: large;
+        margin-left: 0;
       }
+
 
       .user {
         border-radius: 3px;
         color: white;
-        padding: 3px 5px;
+        padding: 1px 5px;
         max-width: 9em;
         text-overflow: ellipsis;
         display: inline-block;
         white-space: nowrap;
         overflow: hidden;
+        position: relative;
+        top: 4px;
       }
 
       .user.cross {
-        background-color: rgba(232, 65, 24, 1);
+        background-color: #2e97ff;
       }
 
       .user.circle {
-        background-color: rgba(25, 42, 86, 1);
+        background-color: #e85d3c;
       }
 
       .game-entry {
         display: flex;
-        padding: 7px;
       }
+
 
       .game-entry,
       .game-offer {
-        background-color: #fbc531;
-        box-shadow: 8px 8px 0px#000000d7;
-        margin: 15px;
+        background-color: #eee;
+        margin: 1em;
+        padding: 1em;
+        border-radius: 1em;
       }
 
-      .game-entry:hover,
-      .game-offer:hover {
-        background-color: #c9cc2c;
+      .game-entry:hover {
+        background-color: #ddd;
       }
 
       .game-entry .game-info {
         flex-grow: 1;
         padding-top: 4px;
-        font-size: 18px;
+        margin: auto;
       }
 
       .game-entry .board {
-        max-width: 120px;
-        max-height: 120px;
-        width: 20vw;
-        height: 20vw;
-        padding: 2px;
-        box-shadow: 1px 1px 10px 4px#0000001e;
+        width: 90px;
+        height: 90px;
+        min-width: 90px;
+        min-height: 90px;
+        padding: .1vw;
       }
       .game-entry .board > div {
-        margin: 2px 0px;
+        margin: .1vw 0;
       }
       .game-entry .board > div > div {
-        margin: 0px 2px;
-      }
-
-      .game-offer {
-        font-family: sans-serif;
-        padding: 10px;
+        margin: 0 .1vw;
       }
 
       .home-screen h2 {
-        padding-left: 10px;
+        text-align: center;
+        color: #888;
       }
 
       .home-screen .content {

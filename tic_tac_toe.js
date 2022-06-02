@@ -59,7 +59,9 @@ function GameState(game) {
   switch (game.state) {
     case GAME_STATE.PLAYER1_TURN:
       if (player1IsYou) {
-        return "Your turn";
+        return [
+          h("span", "Your turn", "user circle"),
+        ];
       } else {
         return [
           "waiting for ",
@@ -69,7 +71,9 @@ function GameState(game) {
       }
     case GAME_STATE.PLAYER2_TURN:
       if (player2IsYou) {
-        return "Your turn";
+        return [
+          h("span", "Your turn", "user cross"),
+        ];
       } else {
         return [
           "waiting for ",
@@ -78,18 +82,16 @@ function GameState(game) {
         ];
       }
     case GAME_STATE.TIE:
-      return "game is over, Tie";
+      return "Tie";
     case GAME_STATE.PLAYER1_WON:
       return [
-        "game is over, ",
         h("span", game.player1.name, "user circle"),
-        "won",
+        " won",
       ];
     case GAME_STATE.PLAYER2_WON:
       return [
-        "game is over, ",
         h("span", game.player2.name, "user cross"),
-        "won",
+        " won",
       ];
     default:
       return "unknown game state: " + game.state;
@@ -102,7 +104,7 @@ function GameState(game) {
 function GameScreen(game) {
   const navbar = h(
     "div",
-    [h("button", "<"), h("span", "TicTacToe")],
+    h("span", "Switch game", "switch"),
     "nav-bar"
   );
   navbar.onclick = () => {
@@ -131,7 +133,6 @@ function GameScreen(game) {
   return h(
     "div",
     [
-      navbar,
       h(
         "div",
         [
@@ -156,6 +157,7 @@ function GameScreen(game) {
         ],
         "content"
       ),
+      navbar,
     ],
     "screen"
   );
@@ -212,7 +214,7 @@ function GameOffer({ player1, gameId }) {
     isYourOffer
       ? [
           h("span", "You", "user circle"),
-          " started a game, waiting for someone to join...",
+          " offered a game, waiting for someone to join...",
         ]
       : inner_state.wait_for_game_start_id == gameId
       ? [
@@ -222,7 +224,7 @@ function GameOffer({ player1, gameId }) {
         ]
       : [
           h("span", player1.name, "user circle"),
-          " started a  game, tap this box to join",
+          " offered a  game, tap to join",
         ],
     "game-offer"
   );
@@ -249,7 +251,7 @@ function GameOffer({ player1, gameId }) {
 }
 
 function CreateGameOfferButton() {
-  const btn = h("button", "Create Game");
+  const btn = h("div", "Create new game offer...", "game-entry");
 
   btn.onclick = () => {
     playBeep(180, 0.1);
@@ -275,14 +277,12 @@ function HomeScreen({ youHaveGameOffer }) {
   return h(
     "div",
     [
-      h("div", h("span", "TicTacToe"), "nav-bar"),
       h(
         "div",
         [
-          h("h2", "Start a game"),
+          h("h2", "Active Games"),
           youHaveGameOffer || CreateGameOfferButton(),
           ...inner_state.gameOffers.map(GameOffer).reverse(),
-          h("h2", "Active Games"),
           ...active_games.map(HomeScreenGameEntry).reverse(),
           h("h2", "Completed Games"),
           ...completed_games.map(HomeScreenGameEntry).reverse(),
