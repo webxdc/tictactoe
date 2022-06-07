@@ -719,15 +719,10 @@ function getAppSummary() {
   ).length;
   const wins = completed_games.length - ties;
   return (
-    "Stats:" +
-    "\nRunning Games: " +
-    active_games.length +
-    "\nCompleted Games: " +
-    completed_games.length +
-    "\nWins: " +
-    wins +
-    "\nTies: " +
-    ties
+    active_games.length + " running, " +
+    completed_games.length + " completed games, " +
+    wins + " wins, " +
+    ties + " ties"
   );
 }
 
