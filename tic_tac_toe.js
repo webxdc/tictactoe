@@ -717,6 +717,7 @@ function getAppSummary() {
 }
 
 // sound?
+//@ts-ignore
 var context = new (window.AudioContext || window.webkitAudioContext)();
 const vol = context.createGain();
 vol.gain.value = 0.1;
