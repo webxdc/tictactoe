@@ -1,2 +1,13 @@
-*.xdc
+# Logs
+pnpm-debug.log*
+.pnpm-debug.log
 
+node_modules
+dist
+dist-xdc
+
+# Editor directories and files
+.vscode/*
+.idea
+.DS_Store
+*~
