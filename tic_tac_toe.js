@@ -59,9 +59,7 @@ function GameState(game) {
   switch (game.state) {
     case GAME_STATE.PLAYER1_TURN:
       if (player1IsYou) {
-        return [
-          h("span", "Your turn", "user circle"),
-        ];
+        return [h("span", "Your turn", "user circle")];
       } else {
         return [
           "waiting for ",
@@ -71,9 +69,7 @@ function GameState(game) {
       }
     case GAME_STATE.PLAYER2_TURN:
       if (player2IsYou) {
-        return [
-          h("span", "Your turn", "user cross"),
-        ];
+        return [h("span", "Your turn", "user cross")];
       } else {
         return [
           "waiting for ",
@@ -84,15 +80,9 @@ function GameState(game) {
     case GAME_STATE.TIE:
       return "Tie";
     case GAME_STATE.PLAYER1_WON:
-      return [
-        h("span", game.player1.name, "user circle"),
-        " won",
-      ];
+      return [h("span", game.player1.name, "user circle"), " won"];
     case GAME_STATE.PLAYER2_WON:
-      return [
-        h("span", game.player2.name, "user cross"),
-        " won",
-      ];
+      return [h("span", game.player2.name, "user cross"), " won"];
     default:
       return "unknown game state: " + game.state;
   }
@@ -102,11 +92,7 @@ function GameState(game) {
  * @param {Game} game
  */
 function GameScreen(game) {
-  const navbar = h(
-    "div",
-    h("span", "Switch game", "switch"),
-    "nav-bar"
-  );
+  const navbar = h("div", h("span", "Switch game", "switch"), "nav-bar");
   navbar.onclick = () => {
     inner_state.currentGameId = undefined;
     reRender();
@@ -719,10 +705,14 @@ function getAppSummary() {
   ).length;
   const wins = completed_games.length - ties;
   return (
-    active_games.length + " running, " +
-    completed_games.length + " completed games, " +
-    wins + " wins, " +
-    ties + " ties"
+    active_games.length +
+    " running, " +
+    completed_games.length +
+    " completed games, " +
+    wins +
+    " wins, " +
+    ties +
+    " ties"
   );
 }
 
