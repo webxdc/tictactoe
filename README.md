@@ -49,7 +49,7 @@ tsc --noEmit --allowJs --lib es2015,dom *.js
 To test your work in your browser (with hot reloading!) while developing:
 
 ```
-npm dev-mini
+npm run dev-mini
 # Alternatively to test in a more advanced WebXDC emulator:
 npm run dev
 ```
@@ -59,14 +59,14 @@ npm run dev
 To package your WebXDC file:
 
 ```
-pnpm build
+npm run build
 ```
 
 To package your WebXDC with developer tools inside to debug in Delta Chat, set the `NODE_ENV`
 environment variable to "debug":
 
 ```
-NODE_ENV=debug pnpm build
+NODE_ENV=debug npm run build
 ```
 
 The resulting optimized `.xdc` file is saved in `dist-xdc/` folder.
