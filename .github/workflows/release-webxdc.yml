@@ -23,6 +23,9 @@ jobs:
           tsc --noEmit --allowJs --lib es2015,dom *.js
       - run: npm test
       - run: npm run build
+      - name: Rename .xdc file for upload
+        run: |
+          mv ./dist-xdc/*.xdc ./dist-xdc/tictactoe.xdc
 
       - name: Release
         uses: softprops/action-gh-release@v1
